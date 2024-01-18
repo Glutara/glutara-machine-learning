@@ -49,8 +49,7 @@ On this example of how to run, we will use the port 8605 to host Tensorflow Serv
     Executing this command should also open the container command line
 4. Run Tensorflow Serving by using this following command inside the container command line
     ``` bash
-    $ tensorflow_model_server --rest_api_port=8605 --model_name=glutara_model --model_base_path=/glutara-machine-learning/    
-    tensorflow_model
+    $ tensorflow_model_server --rest_api_port=8605 --model_name=glutara_model --model_base_path=/glutara-machine-learning/tensorflow_model
     ```
 5. The Tensorflow Serving should be running and ready to respond to inference request. You can also check the serving by opening
    http://localhost:8605/v1/models/glutara_model
