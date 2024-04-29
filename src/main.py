@@ -1,56 +1,44 @@
 import tensorflow as tf
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
-# Load the dataset using pandas
-df = pd.read_csv('../data/data_train.csv')
-features = df['X'].values.reshape(-1, 1)
-labels = df['y'].values
+# Load dataset using Pandas
+dataset = pd.read_csv('../data/data_train.csv')
 
-class WeightedKNNModel(tf.Module):
+# Get the features and target
+X = dataset['X'].values.reshape(-1, 1) 
+y = dataset['y'].values.reshape(-1, 1) 
 
-    # Initiate model
-    def __init__(self):
-        self.training_features = None
-        self.training_labels = None
+# Split into training and validation
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, random_state=42)
+print(y_val)
+# Define the model 
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(1, input_shape=(1,), name='dense_layer')
+])
 
-    # Train the model by saving the dataset
-    def train(self, training_features, training_labels):
-        self.training_features = training_features
-        self.training_labels = training_labels
+# Compile model
+model.compile(optimizer='sgd', loss='mean_squared_error')
 
-    # Function to predict label using weighted KNN
-    @tf.function(input_signature=[tf.TensorSpec(shape=[1,], dtype=tf.float32)])
-    def predict(self, input):
+# Training
+model.fit(X_train, y_train, epochs=1000, batch_size=10, validation_data=(X_val, y_val))
 
-        # Calculate distances and sort them
-        distances = tf.norm(self.training_features - input, axis=1)
-        sorted_indices = tf.argsort(distances)
+# Check training result
+predictions = model.predict(X_val)
 
-        # Initialize value of k
-        k = 4
-        
-        # Handle input according to its property
-        mask = distances < 1e-5
-        if tf.reduce_any(mask):
-            # If any point is within epsilon, directly use that point's label
-            result = tf.reduce_mean(tf.boolean_mask(self.training_labels, mask))
-            result = tf.cast(result, tf.float32)
-        else:
-            # Otherwise, use weighted KNN. Get the nearest neighbors, and weight their distances
-            neighbors = tf.gather(self.training_labels, sorted_indices[:k])
-            neighbors_distances = tf.gather(distances, sorted_indices[:k])
-            weights = 1.0 / (neighbors_distances + 1e-5) 
-            result = tf.reduce_sum(tf.cast(neighbors, tf.float32) * weights) / tf.reduce_sum(weights)
+# Print the first few predictions
+print("Predictions:")
+for i in range(len(X_val)):
+    print(f"Input: {X_val[i][0]}, Prediction: {predictions[i][0]}, True Label: {y_val[i][0]}")
 
-        return tf.reshape(result, [1])
+# Export the model as a SavedModel
+export_dir = '../tensorflow_model/1'
 
-# Create, train, and save the model in Tensorflow SavedModel format
-weighted_knn_model = WeightedKNNModel()
-weighted_knn_model.train(features, labels)
-tf.saved_model.save(weighted_knn_model, "../tensorflow_model/1", signatures={
-    "serving_default": weighted_knn_model.predict
+# Define a serving function for the SavedModel
+@tf.function(input_signature=[tf.TensorSpec(shape=[None, 1], dtype=tf.float32)])
+def serving_fn(inputs):
+    return {"output": model(inputs)}
+
+tf.saved_model.save(model, export_dir, signatures={
+    "serving_default": serving_fn
 })
-
-# Code for testing the model
-# result = weighted_knn_model.predict(tf.constant([1.1241], dtype=tf.float32))
-# print(result.numpy())
