@@ -37,7 +37,9 @@ export_dir = '../tensorflow_model/1'
 # Define a serving function for the SavedModel
 @tf.function(input_signature=[tf.TensorSpec(shape=[None, 1], dtype=tf.float32)])
 def serving_fn(inputs):
-    return {"output": model(inputs)}
+    reshaped_inputs = tf.reshape(inputs, [-1, 1])
+    predictions = model(reshaped_inputs)
+    return {"output": predictions}
 
 tf.saved_model.save(model, export_dir, signatures={
     "serving_default": serving_fn
