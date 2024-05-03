@@ -12,7 +12,7 @@
 <h1 align="center">Glutara Machine Learning</h1>
 Your personal whisperer: Glutara's cutting-edge machine learning deciphers your unique biological dance, translating data into actionable insights. It's your future health confidante, whispering personalized recommendations and guiding you towards empowered decisions.
 
-### 👨🏻‍💻 &nbsp;Technology Stack
+## 👨🏻‍💻 &nbsp;Technology Stack
 
 <div align="center">
 
