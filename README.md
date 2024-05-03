@@ -22,6 +22,12 @@ Your personal whisperer: Glutara's cutting-edge machine learning deciphers your 
 </kbd>
 </a>
 
+<a href="https://firebase.google.com/">
+<kbd>
+<img src="https://firebasestorage.googleapis.com/v0/b/upheld-acumen-420202.appspot.com/o/readme-assets%2Ficons%2FFirebase.png?alt=media&token=da3b3135-dec1-4f6c-b0db-0051541754b6" height="60" />
+</kbd>
+</a>
+
 <a href="https://www.docker.com/">
 <kbd>
 <img src="https://firebasestorage.googleapis.com/v0/b/upheld-acumen-420202.appspot.com/o/readme-assets%2Ficons%2FDocker.png?alt=media&token=3588896c-975f-496f-87d0-e7e1bce0d492" height="60" />
@@ -30,7 +36,7 @@ Your personal whisperer: Glutara's cutting-edge machine learning deciphers your 
 
 </div>
 <div align="center">
-<h4>TensorFlow</h4>
+<h4>TensorFlow | Firebase | Docker</h4>
 </div>
 
 ## Getting Started
