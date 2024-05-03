@@ -26,9 +26,9 @@ Your personal whisperer: Glutara's cutting-edge machine learning deciphers your 
 ## Getting Started
 Make sure you already do these things before running the code
 1. Install Python languange on your computer
-2. Install the package you need to run the code (pandas, scikit-learn, tensorflow) using this following command
+2. Install the package you need to run the code (pandas, scikit-learn, tensorflow, numpy) using this following command
     ``` bash
-    pip install pandas scikit-learn tensorflow
+    pip install pandas scikit-learn tensorflow numpy
     ```
 3. Install Docker on your computer
 4. Download the Tensorflow Serving image to Docker using this following command
@@ -59,7 +59,9 @@ On this example of how to run, we will use the port 8605 to host Tensorflow Serv
    http://localhost:8605/v1/models/glutara_model
 
 ## 🔎 &nbsp;Machine Learning Algorithm
-Our machine learning model currently use `linear regression` algorithm to predict unseen data. This algorithm try to capture the linear relationship between input (features) and prediction/output (target) by finding the best-fitting line of the form `y = mx +b`. Through linear regression algorithm, our model will learn and find the best parameter 'm' and 'b' that will minimize the difference between predicted value and actual value of the data.
+Our machine learning model currently use `linear regression` algorithm to predict unseen data. This algorithm try to capture the linear relationship between input (features) and prediction/output (target) by finding the best-fitting line of the form `y = mx + b`. Through linear regression algorithm, our model will learn and find the best parameter 'm' and 'b' to minimize the difference between predicted value and actual value of the data.
+
+To train our model, we split our dataset into training set and validation set. This separation allows us to evaluate the model's performance on unseen data. We then train our model using Stochastic Gradient Descent technique with 1000 epochs/iteration and a batch size of 10 to ensure convergence of model parameters. The performance of our trained model is then evaluated using `mean squared error (MSE)` metrics. The calculated MSE for our model is `384.7645802644741`, indicating the overall accuracy of our predictions.
 
 ## 👥 &nbsp;Contributors
 
